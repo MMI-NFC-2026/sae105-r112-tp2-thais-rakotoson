@@ -1,0 +1,99 @@
+body {
+  font-family: Arial, sans-serif;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.media--fullwidth {
+  width: 100%;
+  height: auto;
+}
+
+/* Les chemins sont relatifs au fichier CSS (src/css/), d'où le ../../ */
+nav>h4::before {
+  content: url("../../public/icones/book.svg");
+  margin-right: 6px;
+}
+
+nav>ul>li>a::before {
+  content: url("../../public/icones/bag-plus.svg");
+  margin-right: 6px;
+}
+
+nav>ul>li>ul>li>a::before {
+  content: url("../../public/icones/archive.svg");
+  margin-right: 6px;
+}
+
+/* ===================================================================== */
+/* Menu popover (TP2)                                                      */
+/* ===================================================================== */
+
+/* --- menu (popover plein écran) ---------------------------------------- */
+/* Le navigateur place déjà le popover en position fixe sur tout l'écran
+   (position: fixed; inset: 0). Ici on l'étire juste à 100 % et on enlève
+   la bordure qu'il met par défaut. */
+.menu {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  /* Fondu de 400 ms. allow-discrete permet d'animer aussi display,
+     qui passe de none à block sans valeur intermédiaire. */
+  transition: 400ms allow-discrete;
+  /* Le menu part transparent. */
+  opacity: 0;
+}
+
+/* Quand le menu est ouvert, il devient opaque. Grâce à la transition,
+   l'opacité monte progressivement. */
+.menu:popover-open {
+  opacity: 1;
+}
+
+/* Le menu était en display: none avant de s'ouvrir, donc sans point de
+   départ pour l'animation. @starting-style lui en donne un : opacité 0. */
+@starting-style {
+  .menu:popover-open {
+    opacity: 0;
+  }
+}
+
+/* Page figée tant que le menu est ouvert. :has() teste si html contient
+   un .menu ouvert : c'est le seul moyen en CSS de faire remonter l'état
+   du menu jusqu'à la page. Sans ça, on pourrait faire défiler la page
+   derrière le menu. */
+html:has(.menu:popover-open) {
+  overflow: hidden;
+}
+
+/* --- burger ------------------------------------------------------------ */
+/* Curseur en forme de main au survol, pour montrer qu'on peut cliquer. */
+.burger {
+  cursor: pointer;
+}
+
+/* Rotation du bouton de fermeture. Au départ il est droit,
+   comme le bouton hamburger. */
+@starting-style {
+  .menu:popover-open .burger--close {
+    transform: none;
+  }
+}
+
+/* Une fois le menu ouvert, le bouton tourne de 90° en 400 ms. */
+.menu:popover-open .burger--close {
+  transform: rotate(90deg);
+  transition: 400ms;
+}
+
+/* --- préférences de mouvement ------------------------------------------ */
+/* Si l'utilisateur a demandé à réduire les animations dans son système,
+   on coupe les transitions. La virgule regroupe deux sélecteurs pour
+   la même règle. */
+@media (prefers-reduced-motion: reduce) {
+  .menu,
+  .menu .burger--close {
+    transition: none;
+  }
+}
