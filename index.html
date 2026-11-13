@@ -5,26 +5,31 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Test de menu</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="src/css/styles.css">
 </head>
 
 <body>
   <header class="header header--home">
 
     <!-- Menu principal -->
-    <button class="burger" type="button" aria-label="Menu">
+    <!-- popovertarget relie ce bouton au menu (id="menu") : un clic l'ouvre ou le ferme, sans JavaScript.
+         Échap ou un clic à côté du menu le ferment aussi. -->
+    <button class="burger" type="button" popovertarget="menu" aria-label="Menu">
       🍔
     </button>
 
-    <nav class="menu" aria-label="Main menu">
-      <button class="menu__close burger burger--close" type="button" aria-label="Close the menu">
+    <!-- L'attribut popover cache le menu par défaut. Il ne s'affiche que quand un bouton le demande. -->
+    <nav class="menu" id="menu" popover aria-label="Main menu">
+      <!-- popovertargetaction="hide" : ce bouton ne fait que fermer le menu.
+           autofocus place le focus dessus à l'ouverture, pour qu'on puisse fermer au clavier avec Entrée. -->
+      <button class="menu__close burger burger--close" type="button" popovertarget="menu" popovertargetaction="hide"
+        aria-label="Close the menu" autofocus>
         🍔
       </button>
       <ul class="menu__list">
-        <li class="menu__item"><a class="menu__link" href="#">Item de menu un</a></li>
-        <li class="menu__item"><a class="menu__link" href="#">Item de menu deux</a></li>
-        <li class="menu__item"><a class="menu__link" href="#">Item de menu trois</a></li>
-        <li class="menu__item"><a class="menu__link" href="#">Item de menu quatre</a></li>
+        <li class="menu__item"><a class="menu__link" href="index.html">Accueil</a></li>
+        <li class="menu__item"><a class="menu__link" href="cats/index.html">Les chats</a></li>
+        <li class="menu__item"><a class="menu__link" href="dogs/index.html">Les chiens</a></li>
       </ul>
     </nav>
     <!-- Fin du menu principal -->
